@@ -52,7 +52,6 @@
         let container
 
         function updateLayout(rowAmount, columnAmount) {
-            const selectedPoints = []
             container && container.destroy()
             container = new PIXI.Container()
             for (let i = 1; i <= rowAmount; i++) {
@@ -93,7 +92,6 @@
                         selectedPoint.drawCircle(x, y, radius);
                         selectedPoint.endFill();
                         container.addChild(selectedPoint)
-                        selectedPoints.push(selectedPoint)
                     })
                     point.on('pointerover', () => {
                         point.beginFill(0xDC143C);
