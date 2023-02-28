@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:18:02
+ * @LastEditTime: 2023-02-28 14:20:01
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -58,6 +58,8 @@
             rowLines.length > 0 && container.addChild(...rowLines)
             const columnLines = generateColumnLines()
             columnLines.length > 0 && container.addChild(...columnLines)
+            const points = generatePoints()
+            points.length > 0 && container.addChild(...points)
 
             function generateRowLines() {
                 const result = []
@@ -91,32 +93,35 @@
                 return result
             }
 
-            for (let i = 1; i <= rowAmount; i++) {
-                for (let j = 1; j <= columnAmount; j++) {
-                    const radius = 20
-                    const x = (document.body.clientWidth / (columnAmount + 1)) * j
-                    const y = (document.body.clientHeight / (rowAmount + 1)) * i
-                    const point = new PIXI.Graphics()
-                    point.hitArea = new PIXI.Circle(x, y, radius)
-                    point.interactive = true
-                    point.on('pointerdown', () => {
-                        const selectedPoint = new PIXI.Graphics()
-                        selectedPoint.beginFill(0xDC143C)
-                        selectedPoint.drawCircle(x, y, radius);
-                        selectedPoint.endFill();
-                        container.addChild(selectedPoint)
-                    })
-                    point.on('pointerover', () => {
-                        point.beginFill(0xDC143C);
-                        point.drawCircle(x, y, radius);
-                        point.endFill();
-                    })
-                    point.on('pointerout', () => {
-                        point.clear()
-                    })
-
-                    container.addChild(point)
+            function generatePoints() {
+                const result = []
+                for (let i = 1; i <= rowAmount; i++) {
+                    for (let j = 1; j <= columnAmount; j++) {
+                        const radius = 20
+                        const x = (document.body.clientWidth / (columnAmount + 1)) * j
+                        const y = (document.body.clientHeight / (rowAmount + 1)) * i
+                        const point = new PIXI.Graphics()
+                        point.hitArea = new PIXI.Circle(x, y, radius)
+                        point.interactive = true
+                        point.on('pointerdown', () => {
+                            const selectedPoint = new PIXI.Graphics()
+                            selectedPoint.beginFill(0xDC143C)
+                            selectedPoint.drawCircle(x, y, radius);
+                            selectedPoint.endFill();
+                            container.addChild(selectedPoint)
+                        })
+                        point.on('pointerover', () => {
+                            point.beginFill(0xDC143C);
+                            point.drawCircle(x, y, radius);
+                            point.endFill();
+                        })
+                        point.on('pointerout', () => {
+                            point.clear()
+                        })
+                        result.push(point)
+                    }
                 }
+                return result
             }
             app.stage.addChild(container)
         }
