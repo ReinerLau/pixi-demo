@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 16:51:49
+ * @LastEditTime: 2023-02-28 16:55:20
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -127,25 +127,21 @@
                         point.interactive = true
                         const pointOrder = order
                         point.on('pointerdown', (e) => {
+                            const nextSelectedPoint = {
+                                x,
+                                y,
+                                order: pointOrder
+                            }
                             if (selectedPoints.length === 0) {
                                 const selectedPoint = new PIXI.Graphics()
                                 selectedPoint.beginFill(0xDC143C)
                                 selectedPoint.drawCircle(x, y, radius);
                                 selectedPoint.endFill();
                                 container.addChild(selectedPoint)
-                                selectedPoints.push({
-                                    x,
-                                    y,
-                                    order: pointOrder
-                                })
+                                selectedPoints.push(nextSelectedPoint)
                                 return
                             }
                             const lastSelectedPoint = selectedPoints[selectedPoints.length - 1]
-                            const nextSelectedPoint = {
-                                x,
-                                y,
-                                order: pointOrder
-                            }
                             if (isNextTo(lastSelectedPoint, nextSelectedPoint)) {
                                 const selectedPoint = new PIXI.Graphics()
                                 selectedPoint.beginFill(0xDC143C)
