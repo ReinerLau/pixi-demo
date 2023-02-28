@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:15:47
+ * @LastEditTime: 2023-02-28 14:18:02
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -56,6 +56,8 @@
             container = new PIXI.Container()
             const rowLines = generateRowLines()
             rowLines.length > 0 && container.addChild(...rowLines)
+            const columnLines = generateColumnLines()
+            columnLines.length > 0 && container.addChild(...columnLines)
 
             function generateRowLines() {
                 const result = []
@@ -65,24 +67,28 @@
                         width: 1,
                         color: 0xFFFFFF
                     })
-                    result.push(rowLine)
                     const y = (document.body.clientHeight / (rowAmount + 1)) * i
                     rowLine.moveTo(0, y)
                     rowLine.lineTo(document.body.clientWidth, y)
+                    result.push(rowLine)
                 }
                 return result
             }
 
-            for (let i = 1; i <= columnAmount; i++) {
-                const columnLine = new PIXI.Graphics()
-                columnLine.lineStyle({
-                    width: 1,
-                    color: 0xFFFFFF
-                })
-                container.addChild(columnLine)
-                const x = (document.body.clientWidth / (columnAmount + 1)) * i
-                columnLine.moveTo(x, 0)
-                columnLine.lineTo(x, document.body.clientHeight)
+            function generateColumnLines() {
+                const result = []
+                for (let i = 1; i <= columnAmount; i++) {
+                    const columnLine = new PIXI.Graphics()
+                    columnLine.lineStyle({
+                        width: 1,
+                        color: 0xFFFFFF
+                    })
+                    const x = (document.body.clientWidth / (columnAmount + 1)) * i
+                    columnLine.moveTo(x, 0)
+                    columnLine.lineTo(x, document.body.clientHeight)
+                    result.push(columnLine)
+                }
+                return result
             }
 
             for (let i = 1; i <= rowAmount; i++) {
