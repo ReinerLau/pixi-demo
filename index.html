@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:54:18
+ * @LastEditTime: 2023-02-28 15:44:26
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -121,10 +121,23 @@
                             selectedPoint.endFill();
                             container.addChild(selectedPoint)
                             selectedPoints.push({
-                                point: selectedPoint,
+                                x,
+                                y,
                                 order: pointOrder
                             })
-                            console.log(selectedPoints);
+                            selectedPoints.forEach((item, index) => {
+                                if (index == selectedPoints.length - 1) return
+                                const nextPoint = selectedPoints[index + 1]
+                                if (isNextTo(item, nextPoint)) {
+                                    const line = new PIXI.Graphics().lineStyle({
+                                        width: 1,
+                                        color: 0xDC143C
+                                    })
+                                    line.moveTo(item.x, item.y)
+                                    line.lineTo(nextPoint.x, nextPoint.y)
+                                    container.addChild(line)
+                                }
+                            })
                         })
                         point.on('pointerover', () => {
                             point.beginFill(0xDC143C);
@@ -139,8 +152,21 @@
                     }
                 }
                 return result
+
+                function isNextTo(point, nextPoint) {
+                    if (nextPoint.order + 1 === point.order && nextPoint.order % columnAmount !== 0) {
+                        return true
+                    } else if (nextPoint.order - 1 === point.order && point.order % columnAmount !== 0) {
+                        return true
+                    } else if (Math.abs(nextPoint.order - point.order) === columnAmount) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
             }
         }
+
 
     </script>
 </body>
