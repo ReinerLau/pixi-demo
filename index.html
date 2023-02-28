@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:22:52
+ * @LastEditTime: 2023-02-28 14:54:18
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -102,7 +102,9 @@
             }
 
             function generatePoints() {
+                const selectedPoints = []
                 const result = []
+                let order = 1
                 for (let i = 1; i <= rowAmount; i++) {
                     for (let j = 1; j <= columnAmount; j++) {
                         const radius = 20
@@ -111,12 +113,18 @@
                         const point = new PIXI.Graphics()
                         point.hitArea = new PIXI.Circle(x, y, radius)
                         point.interactive = true
-                        point.on('pointerdown', () => {
+                        const pointOrder = order
+                        point.on('pointerdown', (e) => {
                             const selectedPoint = new PIXI.Graphics()
                             selectedPoint.beginFill(0xDC143C)
                             selectedPoint.drawCircle(x, y, radius);
                             selectedPoint.endFill();
                             container.addChild(selectedPoint)
+                            selectedPoints.push({
+                                point: selectedPoint,
+                                order: pointOrder
+                            })
+                            console.log(selectedPoints);
                         })
                         point.on('pointerover', () => {
                             point.beginFill(0xDC143C);
@@ -127,6 +135,7 @@
                             point.clear()
                         })
                         result.push(point)
+                        order++
                     }
                 }
                 return result
