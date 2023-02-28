@@ -1,0 +1,82 @@
+<!--
+ * @Author: ReinerLau lk850593913@gmail.com
+ * @Date: 2023-02-27 16:35:09
+ * @LastEditors: ReinerLau lk850593913@gmail.com
+ * @LastEditTime: 2023-02-28 11:05:28
+ * @FilePath: \pixi-demo\index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const app = new PIXI.Application({ width: document.body.clientWidth, height: document.body.clientHeight });
+        document.body.appendChild(app.view);
+
+        const rowAmount = 3
+        const columnAmount = 3
+        for (let i = 1; i < rowAmount + 1; i++) {
+            const rowLine = new PIXI.Graphics()
+            rowLine.lineStyle({
+                width: 1,
+                color: 0xFFFFFF
+            })
+            app.stage.addChild(rowLine)
+            const y = (document.body.clientHeight / (rowAmount + 1)) * i
+            rowLine.moveTo(0, y)
+            rowLine.lineTo(document.body.clientWidth, y)
+        }
+
+        for (let i = 1; i < columnAmount + 1; i++) {
+            const columnLine = new PIXI.Graphics()
+            columnLine.lineStyle({
+                width: 1,
+                color: 0xFFFFFF
+            })
+            app.stage.addChild(columnLine)
+            const x = (document.body.clientWidth / (columnAmount + 1)) * i
+            columnLine.moveTo(x, 0)
+            columnLine.lineTo(x, document.body.clientHeight)
+        }
+
+        for (let i = 1; i <= rowAmount; i++) {
+            for (let j = 1; j <= columnAmount; j++) {
+                const width = 100
+                const height = 100
+                const x = (document.body.clientWidth / (columnAmount + 1)) * j - (width / 2)
+                const y = (document.body.clientHeight / (rowAmount + 1)) * i - (height / 2)
+                const point = new PIXI.Graphics()
+                point.hitArea = new PIXI.Rectangle(x, y, width, height)
+                point.interactive = true
+                point.on('pointerover', () => {
+                    point.beginFill(0xFFFFFF);
+                    point.drawRect(x, y, width, height);
+                    point.endFill();
+                })
+                point.on('pointerout', () => {
+                    point.clear()
+                })
+
+                app.stage.addChild(point)
+            }
+        }
+    </script>
+</body>
+
+</html>
