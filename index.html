@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:20:01
+ * @LastEditTime: 2023-02-28 14:22:52
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -51,6 +51,13 @@
 
         let container
 
+        rowSlider.addEventListener('change', () => {
+            updateLayout(Number(rowSlider.value), Number(columnSlider.value))
+        })
+        columnSlider.addEventListener('change', () => {
+            updateLayout(Number(rowSlider.value), Number(columnSlider.value))
+        })
+
         function updateLayout(rowAmount, columnAmount) {
             container && container.destroy()
             container = new PIXI.Container()
@@ -60,6 +67,7 @@
             columnLines.length > 0 && container.addChild(...columnLines)
             const points = generatePoints()
             points.length > 0 && container.addChild(...points)
+            app.stage.addChild(container)
 
             function generateRowLines() {
                 const result = []
@@ -123,15 +131,8 @@
                 }
                 return result
             }
-            app.stage.addChild(container)
         }
 
-        rowSlider.addEventListener('change', () => {
-            updateLayout(Number(rowSlider.value), Number(columnSlider.value))
-        })
-        columnSlider.addEventListener('change', () => {
-            updateLayout(Number(rowSlider.value), Number(columnSlider.value))
-        })
     </script>
 </body>
 
