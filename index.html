@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 16:55:20
+ * @LastEditTime: 2023-02-28 17:25:48
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -133,21 +133,13 @@
                                 order: pointOrder
                             }
                             if (selectedPoints.length === 0) {
-                                const selectedPoint = new PIXI.Graphics()
-                                selectedPoint.beginFill(0xDC143C)
-                                selectedPoint.drawCircle(x, y, radius);
-                                selectedPoint.endFill();
-                                container.addChild(selectedPoint)
+                                hightLightPoint(x, y, radius)
                                 selectedPoints.push(nextSelectedPoint)
                                 return
                             }
                             const lastSelectedPoint = selectedPoints[selectedPoints.length - 1]
                             if (isNextTo(lastSelectedPoint, nextSelectedPoint)) {
-                                const selectedPoint = new PIXI.Graphics()
-                                selectedPoint.beginFill(0xDC143C)
-                                selectedPoint.drawCircle(x, y, radius);
-                                selectedPoint.endFill();
-                                container.addChild(selectedPoint)
+                                hightLightPoint(x, y, radius)
                                 selectedPoints.push(nextSelectedPoint)
                                 const line = new PIXI.Graphics().lineStyle({
                                     width: 1,
@@ -184,6 +176,14 @@
                     } else {
                         return false
                     }
+                }
+
+                function hightLightPoint(x, y, radius) {
+                    const selectedPoint = new PIXI.Graphics()
+                    selectedPoint.beginFill(0xDC143C)
+                    selectedPoint.drawCircle(x, y, radius);
+                    selectedPoint.endFill();
+                    container.addChild(selectedPoint)
                 }
             }
         }
