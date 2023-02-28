@@ -2,7 +2,7 @@
  * @Author: ReinerLau lk850593913@gmail.com
  * @Date: 2023-02-27 16:35:09
  * @LastEditors: ReinerLau lk850593913@gmail.com
- * @LastEditTime: 2023-02-28 14:04:03
+ * @LastEditTime: 2023-02-28 14:15:47
  * @FilePath: \pixi-demo\index.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -54,16 +54,23 @@
         function updateLayout(rowAmount, columnAmount) {
             container && container.destroy()
             container = new PIXI.Container()
-            for (let i = 1; i <= rowAmount; i++) {
-                const rowLine = new PIXI.Graphics()
-                rowLine.lineStyle({
-                    width: 1,
-                    color: 0xFFFFFF
-                })
-                container.addChild(rowLine)
-                const y = (document.body.clientHeight / (rowAmount + 1)) * i
-                rowLine.moveTo(0, y)
-                rowLine.lineTo(document.body.clientWidth, y)
+            const rowLines = generateRowLines()
+            rowLines.length > 0 && container.addChild(...rowLines)
+
+            function generateRowLines() {
+                const result = []
+                for (let i = 1; i <= rowAmount; i++) {
+                    const rowLine = new PIXI.Graphics()
+                    rowLine.lineStyle({
+                        width: 1,
+                        color: 0xFFFFFF
+                    })
+                    result.push(rowLine)
+                    const y = (document.body.clientHeight / (rowAmount + 1)) * i
+                    rowLine.moveTo(0, y)
+                    rowLine.lineTo(document.body.clientWidth, y)
+                }
+                return result
             }
 
             for (let i = 1; i <= columnAmount; i++) {
